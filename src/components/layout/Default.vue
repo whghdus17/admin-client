@@ -7,9 +7,9 @@
 			elevation="0"
 			style="border-bottom: 1px solid #dadada !important"
 		>
-			<v-app-bar-nav-icon></v-app-bar-nav-icon>
+			<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-			<v-toolbar-title>Title</v-toolbar-title>
+			<v-toolbar-title>TELLA ADMIN</v-toolbar-title>
 
 			<v-spacer></v-spacer>
 
@@ -21,8 +21,16 @@
 			>
 			<SignOutButton v-else />
 		</v-app-bar>
-
-		<v-main>
+		<v-navigation-drawer v-model="drawer" absolute temporary>
+			<v-list nav dense>
+				<v-list-item-group v-model="group" active-class="primary--text">
+					<v-list-item @click="$router.push({ name: 'Editing' })">
+						<v-list-item-title>Editing</v-list-item-title>
+					</v-list-item>
+				</v-list-item-group>
+			</v-list>
+		</v-navigation-drawer>
+		<v-main class="pt-12">
 			<router-view />
 		</v-main>
 	</div>
@@ -36,9 +44,20 @@ export default {
 	components: {
 		SignOutButton,
 	},
+	data() {
+		return {
+			drawer: false,
+			group: null,
+		}
+	},
 	computed: {
 		tutorId() {
 			return this.$store.getters['auth/tutorId']
+		},
+	},
+	watch: {
+		group() {
+			this.drawer = false
 		},
 	},
 }

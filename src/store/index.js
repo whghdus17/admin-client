@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import device from './modules/device/index'
 import auth from './modules/auth/index'
 import user from './modules/user/index'
+import tutor from './modules/tutor/index'
 
 Vue.use(Vuex)
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
 		device,
 		auth,
 		user,
+		tutor,
 	},
 })

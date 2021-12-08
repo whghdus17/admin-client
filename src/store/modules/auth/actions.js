@@ -16,5 +16,6 @@ export default {
 		await Api.delete('/auth')
 		commit(STORE_ID, null)
 		commit('user/INITIALIZE', null, { root: true })
+		commit('tutor/STORE', [], { root: true })
 	},
 }
