@@ -1,32 +1,45 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+	<v-app>
+		<component :is="layout">
+			<router-view></router-view>
+		</component>
+	</v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+export default {
+	name: 'App',
 
-#nav {
-  padding: 30px;
-}
+	data: () => ({
+		//
+	}),
+	computed: {
+		isAuthChecked() {
+			return this.$store.getters['auth/isAuthChecked']
+		},
+		tutorId() {
+			return this.$store.getters['auth/tutorId']
+		},
+		userDevice() {
+			return this.$store.getters['device/userDevice']
+		},
+		layout() {
+			return this.$route.meta.layout
+		},
+	},
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+	created() {
+		this.setScreenSize()
+		window.addEventListener('resize', () => this.setScreenSize())
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+		this.$store.commit('device/DETECT')
+	},
+	methods: {
+		setScreenSize() {
+			let vh = window.innerHeight * 0.01
+			// Then we set the value in the --vh custom property to the root of the document
+			document.documentElement.style.setProperty('--vh', `${vh}px`)
+		},
+	},
 }
-</style>
+</script>
