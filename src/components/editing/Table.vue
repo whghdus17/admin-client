@@ -6,14 +6,23 @@
 		:headers="headers"
 		:items="items"
 		:items-per-page="-1"
-		class="elevation-1 corrected"
+		class="elevation-1 editing-table"
+		@toggle-select-all="selectAll"
 	>
-		<template v-slot:item.before="{ item }">
+		<template v-slot:[`item.before`]="{ item }">
 			<div v-html="item.before"></div>
 		</template>
-		<template v-slot:item.after="{ item }">
+		<template v-slot:[`item.after`]="{ item }">
 			<div v-html="item.after"></div
 		></template>
+		<template v-slot:[`item.data-table-select`]="{ item, isSelected, select }">
+			<v-simple-checkbox
+				:disabled="item.status !== 'edited'"
+				:value="isSelected"
+				@input="select($event)"
+				:ripple="false"
+			></v-simple-checkbox>
+		</template>
 	</v-data-table>
 </template>
 
@@ -33,14 +42,14 @@ export default {
 		return {
 			selected: [],
 			headers: [
+				{ text: 'Lesson Id', value: 'regular_lesson_id' },
 				{
 					text: 'Created Date',
 					align: 'start',
 					sortable: false,
 					value: 'created_date',
 				},
-				{ text: 'Lesson Id', value: 'regular_lesson_id' },
-				{ text: 'Tutor', value: 'tutor' },
+				{ text: 'Editor', value: 'tutor' },
 				{ text: 'Sentence Correction Id', value: 'id' },
 				{ text: 'Tutee Content', value: 'before' },
 				{ text: 'Tutor Content', value: 'after' },
@@ -81,6 +90,12 @@ export default {
 		},
 	},
 	methods: {
+		selectAll() {
+			this.selected =
+				this.selected.length > 0
+					? []
+					: R.filter(item => item.status === 'edited')(this.items)
+		},
 		beforeDiff(a, b) {
 			let diff = jsdiff.diffWords(a, b)
 			let span = null
@@ -120,7 +135,16 @@ export default {
 </script>
 
 <style lang="scss">
-.corrected {
+.editing-table {
+	.v-data-table__wrapper > table > tbody > tr > td,
+	.v-data-table__wrapper > table > tbody > tr > th,
+	.v-data-table__wrapper > table > thead > tr > td,
+	.v-data-table__wrapper > table > thead > tr > th,
+	.v-data-table__wrapper > table > tfoot > tr > td,
+	.v-data-table__wrapper > table > tfoot > tr > th {
+		padding: 0 8px !important;
+	}
+
 	.higilight {
 		border-radius: 5px !important;
 		padding: 2px 5px 1px 6px;

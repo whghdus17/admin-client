@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid class="pb-12">
+	<v-container fluid class="pb-16">
 		<v-row>
 			<v-col cols="3">
 				<v-menu
@@ -82,6 +82,7 @@
 				class="elevation-3"
 				:selected="selected"
 				v-if="selected.length > 0"
+				@cancel="cancel"
 			/>
 		</v-scroll-y-reverse-transition>
 	</v-container>
@@ -92,6 +93,7 @@ import Selected from './Selected'
 import Table from './Table'
 import TutorPicker from '@/components/common/TutorPicker'
 import Api from '@/services/index'
+const R = require('ramda')
 
 export default {
 	components: {
@@ -114,8 +116,8 @@ export default {
 	computed: {
 		isValid() {
 			let isValid = false
-			if (this.date !== null && this.tutor !== null) isValid = true
-			if (this.lessonId !== null) isValid = true
+			if (this.date && this.tutor) isValid = true
+			if (this.lessonId) isValid = true
 			return isValid
 		},
 		searchQuery() {
@@ -141,7 +143,7 @@ export default {
 				this.selected = []
 				this.editings = []
 				const res = await Api.get(`/editings${this.searchQuery}`)
-				this.editings = res.data
+				this.editings = R.sortWith([R.descend(R.prop('created_at'))])(res.data)
 			} catch (err) {
 				alert(err.response.status)
 			} finally {
@@ -150,6 +152,9 @@ export default {
 		},
 		selectEditings(val) {
 			this.selected = val
+		},
+		cancel() {
+			this.searchEditings()
 		},
 	},
 }
