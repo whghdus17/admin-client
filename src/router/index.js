@@ -32,6 +32,14 @@ const routes = [
 			import(/* webpackChunkName: "editing" */ '../views/Editing.vue'),
 	},
 	{
+		path: '/program',
+		name: 'Program',
+		meta: { layout: 'default' },
+		beforeEnter: guard.authOnly,
+		component: () =>
+			import(/* webpackChunkName: "editing" */ '../views/Program.vue'),
+	},
+	{
 		path: '/404',
 		meta: { layout: 'empty' },
 		beforeEnter: guard.authOnly,

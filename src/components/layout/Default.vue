@@ -23,11 +23,13 @@
 		</v-app-bar>
 		<v-navigation-drawer v-model="drawer" absolute temporary>
 			<v-list nav dense>
-				<v-list-item-group v-model="group" active-class="primary--text">
-					<v-list-item @click="$router.push({ name: 'Editing' })">
-						<v-list-item-title>Editing</v-list-item-title>
-					</v-list-item>
-				</v-list-item-group>
+				<v-list-item
+					v-for="menu in list"
+					:key="menu"
+					@click="$router.push({ name: menu }).catch(() => {})"
+				>
+					<v-list-item-title>{{ menu }}</v-list-item-title>
+				</v-list-item>
 			</v-list>
 		</v-navigation-drawer>
 		<v-main class="pt-12">
@@ -47,17 +49,12 @@ export default {
 	data() {
 		return {
 			drawer: false,
-			group: null,
+			list: ['Editing', 'Program'],
 		}
 	},
 	computed: {
 		tutorId() {
 			return this.$store.getters['auth/tutorId']
-		},
-	},
-	watch: {
-		group() {
-			this.drawer = false
 		},
 	},
 }
