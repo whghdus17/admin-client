@@ -37,7 +37,31 @@ const routes = [
 		meta: { layout: 'default' },
 		beforeEnter: guard.authOnly,
 		component: () =>
-			import(/* webpackChunkName: "editing" */ '../views/Program.vue'),
+			import(/* webpackChunkName: "program" */ '../views/Program.vue'),
+	},
+	{
+		path: '/program/add',
+		name: 'ProgramAdd',
+		meta: { layout: 'default' },
+		beforeEnter: guard.authOnly,
+		component: () =>
+			import(/* webpackChunkName: "program" */ '../views/ProgramAdd.vue'),
+	},
+	{
+		path: '/program/:id',
+		name: 'ProgramDetail',
+		meta: { layout: 'default' },
+		beforeEnter: guard.authOnly,
+		component: () =>
+			import(/* webpackChunkName: "program" */ '../views/ProgramDetail.vue'),
+	},
+	{
+		path: '/program/:id/edit/:language',
+		name: 'ProgramEdit',
+		meta: { layout: 'default' },
+		beforeEnter: guard.authOnly,
+		component: () =>
+			import(/* webpackChunkName: "program" */ '../views/ProgramEdit.vue'),
 	},
 	{
 		path: '/404',

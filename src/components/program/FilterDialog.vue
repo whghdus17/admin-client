@@ -34,14 +34,18 @@
 					<h1 class="mb-1 text-body-1">Type</h1>
 					<div class="">
 						<div
-							@click="lessonType === 0 ? (lessonType = null) : (lessonType = 0)"
+							@click="
+								lessonType === 0 ? (lessonType = undefined) : (lessonType = 0)
+							"
 							:class="{ 'primary white--text': lessonType === 0 }"
 							class="option mr-2"
 						>
 							talk
 						</div>
 						<div
-							@click="lessonType === 1 ? (lessonType = null) : (lessonType = 1)"
+							@click="
+								lessonType === 1 ? (lessonType = undefined) : (lessonType = 1)
+							"
 							:class="{ 'primary white--text': lessonType === 1 }"
 							class="option"
 						>
@@ -124,36 +128,45 @@
 
 <script>
 export default {
-	props: {
-		condition: {
-			required: true,
-			type: Object,
-		},
-	},
 	data() {
 		return {
 			dialog: false,
-			active: null,
-			lessonType: null,
+			active: 1,
+			lessonType: undefined,
 			listOfLevel: [],
 			listOfTopic: [],
 			listOfStructure: [],
 		}
 	},
+	computed: {
+		filter() {
+			return this.$route.query.filter
+				? JSON.parse(this.$route.query.filter)
+				: { active: 1 }
+		},
+	},
 	created() {
-		this.setFromOrigin()
+		this.setFromQuery()
 	},
 	methods: {
 		cancel() {
-			this.setFromOrigin()
+			this.setFromQuery()
 			this.dialog = false
 		},
-		setFromOrigin() {
-			this.active = this.condition.active
-			this.lessonType = this.condition.lessonType
-			this.listOfLevel = this.condition.listOfLevel.slice()
-			this.listOfTopic = this.condition.listOfTopic.slice()
-			this.listOfStructure = this.condition.listOfStructure.slice()
+		setFromQuery() {
+			this.active = this.filter.active !== undefined ? this.filter.active : 1
+			this.lessonType =
+				this.filter.lessonType !== undefined
+					? this.filter.lessonType
+					: undefined
+			this.listOfLevel =
+				this.filter.listOfLevel !== undefined ? this.filter.listOfLevel : []
+			this.listOfTopic =
+				this.filter.listOfTopic !== undefined ? this.filter.listOfTopic : []
+			this.listOfStructure =
+				this.filter.listOfStructure !== undefined
+					? this.filter.listOfStructure
+					: []
 		},
 		reset() {
 			this.active = 1
@@ -163,13 +176,18 @@ export default {
 			this.listOfStructure = []
 		},
 		save() {
-			this.$emit('setCondition', {
-				active: this.active,
-				lessonType: this.lessonType,
-				listOfLevel: this.listOfLevel,
-				listOfTopic: this.listOfTopic,
-				listOfStructure: this.listOfStructure,
-			})
+			let filter = {}
+			if (this.active !== undefined) filter.active = this.active
+			if (this.lessonType !== undefined) filter.lessonType = this.lessonType
+			if (this.listOfLevel !== undefined && this.listOfLevel.length > 0)
+				filter.listOfLevel = this.listOfLevel
+			if (this.listOfTopic !== undefined && this.listOfLevel.length > 0)
+				filter.listOfTopic = this.listOfTopic
+			if (this.listOfStructure !== undefined && this.listOfLevel.length > 0)
+				filter.listOfStructure = this.listOfStructure
+
+			this.$emit('setFilter', filter)
+
 			this.dialog = false
 		},
 	},
