@@ -64,7 +64,13 @@
 								<v-spacer></v-spacer>
 								<v-btn depressed large color="white">Add</v-btn>
 							</div>
-							<UnitList :units="units" />
+							<div v-for="unit in units" :key="unit.id">
+								<UnitCard
+									:unit="unit"
+									:language="language"
+									@expressCardUploadCompleted="getProgram"
+								/>
+							</div>
 						</div>
 						<div v-else>생성된 유닛이 없습니다.</div>
 					</div>
@@ -78,13 +84,13 @@
 import Api from '@/services/index'
 import LanguageTabSelector from '@/components/program/LanguageTabSelector'
 import ProgramInfo from '@/components/program/ProgramInfo'
-import UnitList from '@/components/program/UnitList'
+import UnitCard from '@/components/program/UnitCard'
 
 export default {
 	components: {
 		LanguageTabSelector,
 		ProgramInfo,
-		UnitList,
+		UnitCard,
 	},
 	data() {
 		return {
