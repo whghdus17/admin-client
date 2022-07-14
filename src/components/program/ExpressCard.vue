@@ -61,6 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .express-card {
+	vertical-align: middle;
 	width: 50px;
 	position: absolute;
 	right: 0;

@@ -72,6 +72,14 @@ const routes = [
 			import(/* webpackChunkName: "program" */ '../views/UnitEdit.vue'),
 	},
 	{
+		path: '/unit/:id/guide',
+		name: 'UnitGuide',
+		meta: { layout: 'default' },
+		beforeEnter: guard.authOnly,
+		component: () =>
+			import(/* webpackChunkName: "program" */ '../views/UnitGuide.vue'),
+	},
+	{
 		path: '/404',
 		meta: { layout: 'empty' },
 		beforeEnter: guard.authOnly,

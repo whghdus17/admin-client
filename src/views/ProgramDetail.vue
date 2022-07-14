@@ -54,7 +54,7 @@
 				<v-col cols="12" sm="7" md="8">
 					<div
 						class="py-5 px-3 grey lighten-4"
-						style="max-height: 900px; overflow-y: auto"
+						style="max-height: calc(100vh - 168px); overflow-y: auto"
 					>
 						<div v-if="units.length > 0">
 							<div class="mb-5 d-flex align-center">
@@ -127,7 +127,8 @@ export default {
 				)
 				if (!res.data.program) throw new Error('no program')
 				this.program = res.data.program
-				this.units = res.data.units.slice()
+				this.units = res.data.units.slice().sort((a, b) => a.unit - b.unit)
+
 				this.isLoading = false
 			} catch (err) {
 				let msg = 'Error'
