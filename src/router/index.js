@@ -64,12 +64,20 @@ const routes = [
 			import(/* webpackChunkName: "program" */ '../views/ProgramEdit.vue'),
 	},
 	{
+		path: '/unit/add',
+		name: 'UnitAdd',
+		meta: { layout: 'default' },
+		beforeEnter: guard.authOnly,
+		component: () =>
+			import(/* webpackChunkName: "unit" */ '../views/UnitAdd.vue'),
+	},
+	{
 		path: '/unit/:id',
 		name: 'UnitEdit',
 		meta: { layout: 'default' },
 		beforeEnter: guard.authOnly,
 		component: () =>
-			import(/* webpackChunkName: "program" */ '../views/UnitEdit.vue'),
+			import(/* webpackChunkName: "unit" */ '../views/UnitEdit.vue'),
 	},
 	{
 		path: '/unit/:id/guide',
@@ -77,7 +85,7 @@ const routes = [
 		meta: { layout: 'default' },
 		beforeEnter: guard.authOnly,
 		component: () =>
-			import(/* webpackChunkName: "program" */ '../views/UnitGuide.vue'),
+			import(/* webpackChunkName: "unit" */ '../views/UnitGuide.vue'),
 	},
 	{
 		path: '/404',

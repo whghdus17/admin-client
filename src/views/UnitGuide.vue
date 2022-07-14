@@ -11,16 +11,6 @@
 				<v-icon>mdi-chevron-left</v-icon>
 			</v-btn>
 			<UnitCard :language="language" :unit="unit" />
-			<!-- <v-card class="pa-3 ma-3" width="100%">
-				<h2 class="text-body-1">
-					#{{ unit.programId }} {{ unit.programName }} ({{
-						unit.programNameEn
-					}})
-				</h2>
-				<h1 class="text-body-1 font-weight-bold">
-					#{{ unit.id }} UNIT {{ unit.unit }} : {{ unit.title }}
-				</h1>
-			</v-card> -->
 			<v-btn
 				class="mr-3"
 				large
@@ -84,19 +74,20 @@
 			<v-btn text icon fab @click="get" :disabled="isSaving"
 				><v-icon>mdi-refresh</v-icon></v-btn
 			>
-			<v-btn text icon fab @click="getFromBefore" :disabled="isSaving"
-				><v-icon>mdi-content-copy</v-icon></v-btn
-			>
+			<CopyGuide v-if="guide[language].length > 0" :guide="guide[language]" />
+			<PasteGuide v-if="guide[language].length === 0" @paste="paste" />
 			<AddScript @addScript="addScript" />
-
+			<v-btn text @click="allDelete" :loading="isSaving"
+				><span class="red--text">
+					<v-icon>mdi-trash-can-outline</v-icon>
+				</span></v-btn
+			>
 			<v-btn text @click="save" :loading="isSaving"
 				><span class="primary--text">
 					<v-icon>mdi-content-save</v-icon>
 				</span></v-btn
 			>
-			<!-- <v-btn text icon fab @click="sortGuide" :disabled="isSaving">
-				<v-icon>mdi-sort-numeric-ascending</v-icon>
-			</v-btn> -->
+
 			<v-spacer></v-spacer>
 
 			<v-radio-group v-model="tab" row>
@@ -116,6 +107,8 @@ import StudentGuide from '@/components/unit/student-guide/Wrap'
 import ScriptCard from '@/components/unit/ScriptCard'
 import AddScript from '@/components/unit/AddScript'
 import ExpressCard from '@/components/program/ExpressCard'
+import CopyGuide from '@/components/unit/CopyGuide'
+import PasteGuide from '@/components/unit/PasteGuide'
 
 export default {
 	components: {
@@ -126,6 +119,8 @@ export default {
 		draggable,
 		AddScript,
 		ExpressCard,
+		CopyGuide,
+		PasteGuide,
 	},
 	data() {
 		return {
@@ -184,14 +179,6 @@ export default {
 
 			this.isLoading = false
 		},
-		async getFromBefore() {
-			this.isLoading = true
-			const res = await Api.get(`/programs/units/${this.unit.beforeUnitId}`)
-			this.guide = JSON.parse(res.data.guide)
-			this.sortGuide()
-
-			this.isLoading = false
-		},
 		sortGuide() {
 			this.guide[this.language] = this.guide[this.language].sort(
 				(a, b) => a.sequence - b.sequence,
@@ -229,6 +216,14 @@ export default {
 
 			this.isSaving = false
 			this.get()
+		},
+		paste(guideString) {
+			this.guide[this.language] = JSON.parse(guideString)
+		},
+		allDelete() {
+			let confirmDelete = confirm('정말로 모든 스크립트를 삭제하시겠습니까?')
+			if (confirmDelete === false) return
+			this.guide[this.language] = []
 		},
 	},
 }

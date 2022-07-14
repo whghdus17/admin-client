@@ -131,6 +131,7 @@ export default {
 					en: this.titleEn,
 					ja: this.titleJa,
 				},
+				unit: this.unitNo,
 				numberOfTargetExpressions: this.numberOfTargetExpressions,
 				learningObjective: {
 					ko: this.objectiveKo,

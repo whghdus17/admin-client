@@ -62,7 +62,18 @@
 									TOTAL : {{ units.length }} UNITS
 								</h1>
 								<v-spacer></v-spacer>
-								<v-btn depressed large color="white">Add</v-btn>
+								<v-btn
+									depressed
+									large
+									color="white"
+									@click="
+										$router.push({
+											name: 'UnitAdd',
+											query: { 'program-id': program.id },
+										})
+									"
+									>Add</v-btn
+								>
 							</div>
 							<div v-for="unit in units" :key="unit.id">
 								<UnitCard

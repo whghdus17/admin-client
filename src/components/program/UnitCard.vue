@@ -16,7 +16,9 @@
 					<v-col cols="3"> Expression </v-col>
 					<v-col cols="9"> {{ unit.numberOfTargetExpressions }} </v-col>
 					<v-col cols="3"> Objective </v-col>
-					<v-col cols="9"> {{ learningObjective[language] }} </v-col>
+					<v-col cols="9">
+						{{ learningObjective[language] }}
+					</v-col>
 					<v-col cols="3"> Objective En </v-col>
 					<v-col cols="9"> {{ learningObjective['en'] }} </v-col>
 				</v-row>
