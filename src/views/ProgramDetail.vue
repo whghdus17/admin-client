@@ -56,25 +56,25 @@
 						class="py-5 px-3 grey lighten-4"
 						style="max-height: calc(100vh - 168px); overflow-y: auto"
 					>
+						<div class="mb-5 d-flex align-center">
+							<h1 class="text-body-1 font-weight-bold">
+								TOTAL : {{ units.length }} UNITS
+							</h1>
+							<v-spacer></v-spacer>
+							<v-btn
+								depressed
+								large
+								color="white"
+								@click="
+									$router.push({
+										name: 'UnitAdd',
+										query: { 'program-id': program.id },
+									})
+								"
+								>Add</v-btn
+							>
+						</div>
 						<div v-if="units.length > 0">
-							<div class="mb-5 d-flex align-center">
-								<h1 class="text-body-1 font-weight-bold">
-									TOTAL : {{ units.length }} UNITS
-								</h1>
-								<v-spacer></v-spacer>
-								<v-btn
-									depressed
-									large
-									color="white"
-									@click="
-										$router.push({
-											name: 'UnitAdd',
-											query: { 'program-id': program.id },
-										})
-									"
-									>Add</v-btn
-								>
-							</div>
 							<div v-for="unit in units" :key="unit.id">
 								<UnitCard
 									:unit="unit"

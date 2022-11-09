@@ -5,7 +5,7 @@
 			style="border-left: 2px solid #ffc700"
 			class="pl-1"
 			:val="script.content"
-			:id="`${script.id}`"
+			:id="`${script.sequence}`"
 		/>
 	</div>
 </template>

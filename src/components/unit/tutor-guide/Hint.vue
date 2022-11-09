@@ -1,7 +1,7 @@
 <template>
 	<div class="pa-3 example-answer">
 		<strong class="font-weight-bold">* hint</strong>
-		<CopyText :val="script.content" :id="`${script.id}`" />
+		<CopyText :val="script.content" :id="`${script.sequence}`" />
 	</div>
 </template>
 

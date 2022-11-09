@@ -13,7 +13,7 @@
 					✏️&nbsp; 영어로 써보세요
 				</p>
 				<p class="black-text">
-					{{ content }}
+					<span v-html="content"></span>
 				</p>
 			</div>
 		</div>

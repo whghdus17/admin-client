@@ -2,7 +2,7 @@
 	<div class="d-flex justify-end">
 		<div flat class="pa-3 tutor-hidden-question">
 			<strong class="font-weight-bold">* Tutor Hidden Question</strong>
-			<CopyText :val="script.content" :id="`${script.id}`" />
+			<CopyText :val="script.content" :id="`${script.sequence}`" />
 		</div>
 	</div>
 </template>

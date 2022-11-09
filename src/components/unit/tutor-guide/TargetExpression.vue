@@ -2,7 +2,7 @@
 	<div class="d-flex justify-end">
 		<div flat class="pa-3 setting">
 			<strong class="font-weight-bold">
-				<CopyText :val="`[ ${script.content} ]`" :id="`${script.id}`" />
+				<CopyText :val="`${script.content}`" :id="`${script.sequence}`" />
 			</strong>
 		</div>
 	</div>
@@ -22,6 +22,7 @@ export default {
 			type: Object,
 		},
 	},
+	computed: {},
 }
 </script>
 

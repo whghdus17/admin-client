@@ -56,6 +56,12 @@
 					H2
 				</button>
 				<button
+					@click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+					:class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+				>
+					H3
+				</button>
+				<button
 					@click="editor.chain().focus().toggleBulletList().run()"
 					:class="{ 'is-active': editor.isActive('bulletList') }"
 				>

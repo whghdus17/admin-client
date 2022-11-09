@@ -1,8 +1,17 @@
 <template>
 	<v-card outlined flat>
 		<div class="grey lighten-3 px-3 py-1 d-flex align-center">
-			<div class=""># {{ script.sequence }}</div>
+			<div class=""># {{ sequence }}</div>
 			<v-spacer></v-spacer>
+			<v-select
+				style="max-width: 150px"
+				v-model="scriptType"
+				:items="['html', 'text']"
+				dense
+				outlined
+				hide-details
+				background-color="white"
+			></v-select>
 			<v-select
 				style="max-width: 225px"
 				:items="guideComponents"
@@ -11,7 +20,7 @@
 				outlined
 				hide-details
 				@change="updateComponent"
-				class="mr-2"
+				class="mx-2"
 				background-color="white"
 			>
 			</v-select>
@@ -20,16 +29,15 @@
 			>
 		</div>
 		<div v-show="isDragging === false">
-			<!-- <div class="text-right">
-				<v-btn icon v-if="type === 'code'" @click="type = 'editor'"
-					><v-icon>mdi-pencil-outline</v-icon></v-btn
-				>
-				<v-btn @click="type = 'code'" v-if="type === 'editor'" icon
-					><v-icon>mdi-xml</v-icon></v-btn
-				>
-			</div> -->
-			<!-- v-if="type === 'code'" -->
-			<Editor :value="script.content" @input="updateContent" />
+			<v-textarea
+				v-if="scriptType === 'text'"
+				v-model="script.content"
+			></v-textarea>
+			<Editor
+				v-if="scriptType === 'html'"
+				:value="script.content"
+				@input="updateContent"
+			/>
 		</div>
 	</v-card>
 </template>
@@ -55,6 +63,7 @@ export default {
 		return {
 			type: 'editor',
 			component: null,
+			scriptType: null,
 			guideComponents: [
 				{ value: 1, text: 'unit-guideline' },
 				{ value: 2, text: 'instruction' },
@@ -73,10 +82,28 @@ export default {
 			],
 		}
 	},
+	computed: {
+		sequence() {
+			return this.script.sequence
+		},
+	},
+	watch: {
+		script: {
+			deep: true,
+
+			handler() {
+				this.set()
+			},
+		},
+	},
 	created() {
-		this.component = this.script.program_guide_component_id
+		this.set()
 	},
 	methods: {
+		set() {
+			this.component = this.script.program_guide_component_id
+			this.scriptType = this.script.script_type ?? 'html'
+		},
 		updateComponent() {
 			this.$emit('updateComponent', this.script.sequence, this.component)
 		},

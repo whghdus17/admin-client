@@ -1,6 +1,6 @@
 <template>
 	<v-card flat class="pa-3 mx-1">
-		<CopyText :val="script.content" :id="`${script.id}`" />
+		<CopyText :val="script.content" :id="`${script.sequence}`" />
 	</v-card>
 </template>
 

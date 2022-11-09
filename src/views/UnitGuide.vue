@@ -42,7 +42,7 @@
 					v-model="guide[language]"
 					v-bind="dragOptions"
 					@start="isDragging = true"
-					@end="isDragging = false"
+					@end="endDrag"
 				>
 					<transition-group type="transition" name="flip-list">
 						<ScriptCard
@@ -87,7 +87,6 @@
 					<v-icon>mdi-content-save</v-icon>
 				</span></v-btn
 			>
-
 			<v-spacer></v-spacer>
 
 			<v-radio-group v-model="tab" row>
@@ -184,6 +183,17 @@ export default {
 				(a, b) => a.sequence - b.sequence,
 			)
 		},
+		endDrag() {
+			this.isDragging = false
+			this.renumberSequence()
+		},
+		renumberSequence() {
+			let i = 1
+			this.guide[this.language].forEach(s => {
+				s.sequence = i
+				i++
+			})
+		},
 		updateContent(sequence, value) {
 			this.guide[this.language].forEach(script => {
 				if (script.sequence === sequence) script.content = value
@@ -199,18 +209,21 @@ export default {
 			this.guide[this.language] = this.guide[this.language].filter(
 				script => script.sequence !== sequence,
 			)
+			this.renumberSequence()
 		},
 		addScript(script) {
-			const sequence = this.lastSequence + 1
+			const sequence = this.lastSequence ? this.lastSequence + 1 : 1
 			this.guide[this.language].push({
 				content: script.content,
 				program_guide_component_id: script.component,
 				sequence: sequence,
+				script_type: script.scriptType,
 			})
+			this.renumberSequence()
 		},
 		async save() {
 			this.isSaving = true
-			await Api.patch(`/programs/units/${this.unit.id}`, {
+			await Api.patch(`/programs/units/${this.unit.id}/guide`, {
 				guide: this.guide,
 			})
 
@@ -218,7 +231,13 @@ export default {
 			this.get()
 		},
 		paste(guideString) {
-			this.guide[this.language] = JSON.parse(guideString)
+			const guideFromJson = JSON.parse(guideString)
+			let i = 1
+			guideFromJson.forEach(s => {
+				s.sequence = i
+				i++
+			})
+			this.guide[this.language] = guideFromJson.slice()
 		},
 		allDelete() {
 			let confirmDelete = confirm('정말로 모든 스크립트를 삭제하시겠습니까?')

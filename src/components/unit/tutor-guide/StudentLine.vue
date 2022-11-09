@@ -1,6 +1,6 @@
 <template>
 	<div class="talk-bubble pa-3 tri-left round left-top">
-		<CopyText :val="script.content" :id="`${script.id}`" />
+		<CopyText :val="script.content" :id="`${script.sequence}`" />
 	</div>
 </template>
 

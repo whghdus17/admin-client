@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex justify-end">
 		<div class="talk-bubble pa-3 tri-right round border right-top">
-			<CopyText :val="script.content" :id="`${script.id}`" />
+			<CopyText :val="script.content" :id="`${script.sequence}`" />
 		</div>
 	</div>
 </template>

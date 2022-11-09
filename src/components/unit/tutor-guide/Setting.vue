@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex justify-center">
 		<v-card flat class="pa-3 mx-1 setting">
-			<CopyText :val="script.content" :id="`${script.id}`" />
+			<CopyText :val="script.content" :id="`${script.sequence}`" />
 		</v-card>
 	</div>
 </template>

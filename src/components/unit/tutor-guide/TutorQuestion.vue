@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex justify-end">
 		<div class="tutor-question pa-3">
-			<CopyText :val="script.content" :id="`${script.id}`" />
+			<CopyText :val="script.content" :id="`${script.sequence}`" />
 		</div>
 	</div>
 </template>

@@ -40,6 +40,7 @@ export default {
 			let text = this.val
 			if (typeof this.val === 'string') {
 				text = text.replace(/<br>/gi, '\n')
+				text = text.replace(/<br>/gi, '\n')
 				text = text.replace(/<\/h1>/gi, '\n')
 				text = text.replace(/<\/h2>/gi, '\n')
 				text = text.replace(/<\/h3>/gi, '\n')
@@ -51,7 +52,13 @@ export default {
 					/<(\/)?([a-zA-Z0-9]*)(\s[a-zA-Z0-9]*=[^>]*)?(\s)*(\/)?>/gi,
 					'',
 				)
+
+				const regex = /\n$/
+				while (regex.test(text)) {
+					text = text.replace(/\n$/, '')
+				}
 			}
+
 			return text
 		},
 	},

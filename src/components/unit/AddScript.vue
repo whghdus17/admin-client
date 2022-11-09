@@ -107,6 +107,7 @@ export default {
 			this.$emit('addScript', {
 				component: this.component,
 				content: this.content,
+				scriptType: this.tab === 0 ? 'text' : 'html',
 			})
 			this.dialog = false
 			this.component = 1

@@ -11,7 +11,7 @@
 				예시 답변
 			</p>
 			<p class="grey-text">
-				{{ content }}
+				<span v-html="content"></span>
 				<AudioPlayer
 					class="d-inline-block mr-1"
 					:script="content"

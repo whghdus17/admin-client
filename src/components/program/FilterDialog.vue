@@ -170,7 +170,7 @@ export default {
 		},
 		reset() {
 			this.active = 1
-			this.lessonType = null
+			this.lessonType = undefined
 			this.listOfLevel = []
 			this.listOfTopic = []
 			this.listOfStructure = []
@@ -181,11 +181,10 @@ export default {
 			if (this.lessonType !== undefined) filter.lessonType = this.lessonType
 			if (this.listOfLevel !== undefined && this.listOfLevel.length > 0)
 				filter.listOfLevel = this.listOfLevel
-			if (this.listOfTopic !== undefined && this.listOfLevel.length > 0)
+			if (this.listOfTopic !== undefined && this.listOfTopic.length > 0)
 				filter.listOfTopic = this.listOfTopic
-			if (this.listOfStructure !== undefined && this.listOfLevel.length > 0)
+			if (this.listOfStructure !== undefined && this.listOfStructure.length > 0)
 				filter.listOfStructure = this.listOfStructure
-
 			this.$emit('setFilter', filter)
 
 			this.dialog = false

@@ -1,6 +1,6 @@
 <template>
 	<div class="target-expression black-text">
-		{{ content }}
+		<span v-html="content"></span>
 	</div>
 </template>
 
