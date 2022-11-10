@@ -4,15 +4,6 @@
 			<div class=""># {{ sequence }}</div>
 			<v-spacer></v-spacer>
 			<v-select
-				style="max-width: 150px"
-				v-model="scriptType"
-				:items="['html', 'text']"
-				dense
-				outlined
-				hide-details
-				background-color="white"
-			></v-select>
-			<v-select
 				style="max-width: 225px"
 				:items="guideComponents"
 				v-model="component"
@@ -27,17 +18,15 @@
 			<v-btn small icon @click="$emit('deleteScript', script.sequence)"
 				><v-icon>mdi-trash-can</v-icon></v-btn
 			>
+			<v-btn small icon @click="showHtml = !showHtml"
+				><v-icon>mdi-code-braces</v-icon></v-btn
+			>
 		</div>
 		<div v-show="isDragging === false">
-			<v-textarea
-				v-if="scriptType === 'text'"
-				v-model="script.content"
-			></v-textarea>
-			<Editor
-				v-if="scriptType === 'html'"
-				:value="script.content"
-				@input="updateContent"
-			/>
+			<Editor :value="script.content" @input="updateContent" />
+			<div v-if="showHtml === true">
+				<v-textarea outlined v-model="script.content"></v-textarea>
+			</div>
 		</div>
 	</v-card>
 </template>
@@ -61,9 +50,9 @@ export default {
 	},
 	data() {
 		return {
+			showHtml: false,
 			type: 'editor',
 			component: null,
-			scriptType: null,
 			guideComponents: [
 				{ value: 1, text: 'unit-guideline' },
 				{ value: 2, text: 'instruction' },
@@ -102,7 +91,6 @@ export default {
 	methods: {
 		set() {
 			this.component = this.script.program_guide_component_id
-			this.scriptType = this.script.script_type ?? 'html'
 		},
 		updateComponent() {
 			this.$emit('updateComponent', this.script.sequence, this.component)

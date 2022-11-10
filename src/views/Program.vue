@@ -47,10 +47,10 @@
 							<td>{{ item.id }}</td>
 							<td class="text-left">
 								<p class="text-body-2 mb-0">{{ item.name }}</p>
-								<p class="text-caption mb-0">{{ item.name_en }}</p>
+								<p class="text-caption mb-0">{{ item.nameEn }}</p>
 							</td>
 							<td>
-								{{ item.program_level }}
+								{{ item.programLevel }}
 							</td>
 							<td class="font-weight-bold">
 								{{ item.program_ja_id ? 'KO|JA' : 'KO' }}
@@ -59,11 +59,11 @@
 								<span
 									class="font-weight-bold"
 									:class="{
-										'talk--text': item.lesson_type === 0,
-										'call--text': item.lesson_type === 1,
+										'talk--text': item.lessonType === 0,
+										'call--text': item.lessonType === 1,
 									}"
 								>
-									{{ item.lesson_type === 0 ? '톡' : '콜' }}
+									{{ item.lessonType === 0 ? '톡' : '콜' }}
 								</span>
 							</td>
 							<td>
@@ -242,6 +242,7 @@ export default {
 				)
 
 				this.programs = res.data
+				console.log(this.programs)
 				this.isLoading = false
 			} catch (err) {
 				console.log(err)

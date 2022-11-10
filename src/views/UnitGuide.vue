@@ -217,7 +217,6 @@ export default {
 				content: script.content,
 				program_guide_component_id: script.component,
 				sequence: sequence,
-				script_type: script.scriptType,
 			})
 			this.renumberSequence()
 		},
