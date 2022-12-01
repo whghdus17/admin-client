@@ -156,8 +156,8 @@ export default {
 
 			const objective = JSON.parse(this.unit.learningObjective)
 			this.objectiveKo = objective['ko']
-			this.objectiveEn = objective['ja']
-			this.objectiveJa = objective['en']
+			this.objectiveEn = objective['en']
+			this.objectiveJa = objective['ja']
 
 			this.unitNo = this.unit.unit
 			this.numberOfTargetExpressions = this.unit.numberOfTargetExpressions
@@ -166,6 +166,7 @@ export default {
 		},
 		async save() {
 			this.isSaving = true
+
 			await Api.patch(`/programs/units/${this.unit.id}`, this.params)
 
 			this.isSaving = false
